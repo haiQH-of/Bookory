@@ -1,0 +1,18 @@
+/* src/main/resources/static/css/admin/_admin_user.css */
+
+/* ==========================================================================
+   USER MANAGEMENT PAGE SPECIFIC STYLES
+   (Các style ĐẶC THÙ chỉ dành cho trang quản lý Người dùng)
+   ========================================================================== */
+
+/* Style cho cột Avatar */
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Bo tròn avatar */
+    object-fit: cover;
+    border: 1px solid var(--admin-border-color, #E6ECF0);
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
+}
+
+/* Nếu có thêm các style riêng cho user management thì đặt ở đây */

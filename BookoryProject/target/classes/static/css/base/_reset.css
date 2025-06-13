@@ -1,0 +1,15 @@
+/* (Reset CSS và các style cơ bản cho body, html) */
+
+/* Reset CSS cơ bản */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    color: var(--bookory-dark-text); /* Sử dụng biến */
+    background-color: var(--bookory-light-gray); /* Sử dụng biến */
+}

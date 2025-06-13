@@ -1,0 +1,61 @@
+/* (Style cho các input, form-group, checkbox trong các form chung, không chỉ auth) */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--bookory-dark-text); /* Đã đổi từ var(--bookory-text-dark) */
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--bookory-light-border); /* Đã đổi từ var(--bookory-border-light) */
+    border-radius: 8px;
+    font-size: 1rem;
+    color: var(--bookory-dark-text); /* Đã đổi từ var(--bookory-text-dark) */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="text"]:focus {
+    border-color: var(--bookory-teal);
+    box-shadow: 0 0 0 3px rgba(38, 166, 154, 0.2);
+    outline: none;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.remember-me input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--bookory-teal);
+    cursor: pointer;
+}
+
+.remember-me label {
+    margin-bottom: 0;
+    color: var(--bookory-medium-text); /* Đã đổi từ var(--bookory-text-light) */
+    font-weight: normal;
+    cursor: pointer;
+}

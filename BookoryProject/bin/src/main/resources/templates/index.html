@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chủ Bookory - Mua Bán Sách Trực Tuyến</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="hero-section">
+            <div class="container hero-content">
+                <h1>Khám Phá Thế Giới Sách Đa Dạng Tại Bookory</h1>
+                <p>Tìm kiếm những cuốn sách yêu thích, khám phá các tác giả mới và mua sắm dễ dàng. Bookory là điểm đến của những người yêu sách.</p>
+                <div class="hero-buttons">
+                    <a th:href="@{/book/list}" class="btn btn-primary">Khám Phá Sách Ngay</a>
+                    <a th:href="@{/register}" class="btn btn-secondary">Đăng Ký Bán Sách</a>
+                </div>
+            </div>
+            <div class="hero-bg-overlay"></div>
+            <div class="hero-bg-image" th:style="'background-image: url(\'' + @{/img/hero-bg.jpg} + '\');'"></div>
+        </section>
+
+        <section class="section featured-books-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Sách Nổi Bật</h2>
+                    <a th:href="@{/book/list}" class="view-all">Xem Tất Cả →</a>
+                </div>
+                <div class="book-grid">
+                    <div th:if="${featuredBooks == null || featuredBooks.empty}" class="no-data-message">
+                        <p>Chưa có sách nổi bật nào.</p>
+                    </div>
+                    <div class="book-card" th:each="book : ${featuredBooks}">
+                        <div class="card-image">
+                            <img th:src="${book.coverImageUrl != null ? '/images/' + book.coverImageUrl : '/images/default-cover.jpg'}"
+                                 th:alt="${book.title != null ? book.title : 'Sách'}" />
+                            <div class="card-meta">
+                                <span class="price" th:text="${book.price != null ? #numbers.formatDecimal(book.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ' : 'N/A'}"></span>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <th:block th:if="${book.bookCategories != null && !book.bookCategories.empty}">
+                                <span class="category-tag"
+                                      th:each="bookCategory : ${book.bookCategories}"
+                                      th:text="${bookCategory.category.name}">Kỳ Ảo</span>
+                            </th:block>
+                            <span class="category-tag" th:unless="${book.bookCategories != null && !book.bookCategories.empty}">Không có thể loại</span>
+
+                            <h3 class="book-title">
+                                <a th:href="@{/book/{id}(id=${book.id})}" th:text="${book.title}">Tên Sách Nổi Bật</a>
+                            </h3>
+                            <p class="author" th:text="${book.seller != null && book.seller.user != null ? 'bởi ' + book.seller.user.displayName : 'bởi N/A'}">bởi Tác giả/Người bán</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section explore-category-section">
+            <div class="container">
+                <h2>Khám Phá theo Thể Loại</h2>
+                <div class="category-tags">
+                    <div th:if="${categories == null || categories.empty}" class="no-data-message">
+                        <p>Chưa có thể loại nào.</p>
+                    </div>
+                    <a th:href="@{/book/list(categoryId=${category.id})}" class="category-tag" th:each="category : ${categories}" th:text="${category.name}">Kỳ Ảo</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section latest-books-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Sách Mới Nhất</h2>
+                    <a th:href="@{/book/list}" class="view-all">Xem Tất Cả →</a>
+                </div>
+                <div class="book-grid">
+                    <div th:if="${latestBooks == null || latestBooks.empty}" class="no-data-message">
+                        <p>Chưa có sách mới nhất nào.</p>
+                    </div>
+                    <div class="book-card" th:each="book : ${latestBooks}">
+                        <div class="card-image">
+                            <img th:src="${book.coverImageUrl != null ? '/images/' + book.coverImageUrl : '/images/default-cover.jpg'}"
+                                 th:alt="${book.title != null ? book.title : 'Sách'}" />
+                            <span class="new-badge">MỚI</span>
+                        </div>
+                        <div class="card-info">
+                            <h3 class="book-title">
+                                <a th:href="@{/book/{id}(id=${book.id})}" th:text="${book.title}">Tên Sách Mới Nhất</a>
+                            </h3>
+                            <p class="author" th:text="${book.seller != null && book.seller.user != null ? 'bởi ' + book.seller.user.displayName : 'bởi N/A'}">bởi Tác giả/Người bán</p>
+                            <span class="price" th:text="${book.price != null ? #numbers.formatDecimal(book.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ' : 'N/A'}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container cta-content">
+                <h2>Bạn Muốn Bán Sách Cũ Hoặc Sách Mới?</h2>
+                <p>Tham gia cộng đồng Bookory để đưa những cuốn sách của bạn đến tay độc giả mới.</p>
+                <a th:href="@{/seller/dashboard}" class="btn btn-cta">Đăng Ký Bán Ngay</a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

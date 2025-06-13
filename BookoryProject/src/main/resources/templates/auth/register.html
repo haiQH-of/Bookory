@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Ký Bookory</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="auth-section">
+            <div class="auth-card">
+                <h2>Tham gia Bookory!</h2>
+                <p class="auth-subtitle">Tạo tài khoản miễn phí để bắt đầu mua bán sách dễ dàng.</p>
+                
+                <form action="#" th:action="@{/register}" th:object="${registerRequest}" method="post" class="auth-form">
+                    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" id="username" th:field="*{username}" placeholder="Chọn tên đăng nhập của bạn" required>
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" th:field="*{password}" placeholder="Tạo mật khẩu mạnh" required>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Xác nhận mật khẩu</label>
+                        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" placeholder="Nhập lại mật khẩu" required>
+                        <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="text-danger"></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Đăng Ký Tài Khoản</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Đã có tài khoản? <a th:href="@{/login}">Đăng nhập ngay!</a></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

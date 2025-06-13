@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ Hàng</title>
+    <style>
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .cart-header {
+            margin-bottom: 30px;
+        }
+
+        .cart-items {
+            border: 1px solid #e2e2e2;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #e2e2e2;
+            align-items: center;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 150px;
+            margin-right: 20px;
+            object-fit: cover;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .item-author {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #e63946;
+        }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ddd;
+            margin: 0 5px;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        .cart-summary {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-row.total {
+            font-size: 20px;
+            font-weight: bold;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .checkout-btn:hover {
+            background: #388e3c;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .empty-cart p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .continue-shopping {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h1>Giỏ Hàng</h1>
+            </div>
+
+            <!-- Hiển thị thông báo -->
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${info}" class="alert alert-info" th:text="${info}"></div>
+            <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+            <!-- Giỏ hàng trống -->
+            <div th:if="${cartItems == null || cartItems.empty}" class="empty-cart">
+                <p>Giỏ hàng của bạn đang trống.</p>
+                <a th:href="@{/}" class="continue-shopping">Tiếp tục mua sắm</a>
+            </div>
+
+            <!-- Giỏ hàng có sản phẩm -->
+            <div th:if="${cartItems != null && !cartItems.empty}">
+                <div class="cart-items">
+                    <div th:each="item : ${cartItems}" class="cart-item">
+                        <img th:src="${item.book.coverImageUrl != null ? '/images/' + item.book.coverImageUrl : '/images/default-cover.jpg'}"
+                            th:alt="${item.book.title}" class="item-image">
+
+                        <div class="item-details">
+                            <h3 class="item-title" th:text="${item.book.title}">Tên Sách</h3>
+                            <p class="item-author"
+                                th:text="${item.book.seller != null && item.book.seller.user != null ? 'bởi ' + item.book.seller.user.displayName : 'bởi N/A'}">
+                                Tác giả</p>
+                            <p class="item-price"
+                                th:text="${#numbers.formatDecimal(item.book.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">
+                                Giá</p>
+                        </div>
+
+                        <div class="item-controls">
+                            <form th:action="@{/cart/update}" method="post" class="quantity-control">
+                                <input type="hidden" name="bookId" th:value="${item.book.id}">
+                                <button type="button" class="quantity-btn decrease-btn"
+                                    onclick="decreaseQuantity(this)">-</button>
+                                <input type="number" name="quantity" th:value="${item.quantity}" min="1"
+                                    class="quantity-input" onchange="this.form.submit()">
+                                <button type="button" class="quantity-btn increase-btn"
+                                    onclick="increaseQuantity(this)">+</button>
+                            </form>
+
+                            <form th:action="@{/cart/remove}" method="post">
+                                <input type="hidden" name="bookId" th:value="${item.book.id}">
+                                <button type="submit" class="remove-btn">Xóa</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Tổng tiền:</span>
+                        <span th:text="${#numbers.formatDecimal(totalPrice, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">0
+                            VNĐ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Phí vận chuyển:</span>
+                        <span>Miễn phí</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Thành tiền:</span>
+                        <span th:text="${#numbers.formatDecimal(totalPrice, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">0
+                            VNĐ</span>
+                    </div>
+                </div>
+
+                <form th:action="@{/cart/checkout}" method="post">
+                    <button type="submit" class="checkout-btn">Thanh Toán</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function decreaseQuantity(button) {
+                var input = button.nextElementSibling;
+                var currentValue = parseInt(input.value);
+                if (currentValue > 1) {
+                    input.value = currentValue - 1;
+                    input.form.submit();
+                }
+            }
+
+            function increaseQuantity(button) {
+                var input = button.previousElementSibling;
+                input.value = parseInt(input.value) + 1;
+                input.form.submit();
+            }
+        </script>
+    </div>
+</body>
+
+</html>

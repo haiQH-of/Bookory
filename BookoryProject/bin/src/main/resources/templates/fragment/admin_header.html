@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="admin-header" class="admin-header">
+        <div class="admin-header-left">
+            <div class="admin-logo">
+                <a href="#" th:href="@{/admin/dashboard}">
+                    <img th:src="@{/images/word-logo.png}" alt="Bookory Word Logo">
+                </a>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="admin-header-right">
+            <div class="admin-user-info">
+                <span>Xin chào, Admin!</span>
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <a href="#" th:href="@{/login}" class="admin-logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+            </a>
+        </div>
+    </header>
+</body>
+</html>

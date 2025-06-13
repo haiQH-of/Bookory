@@ -1,0 +1,45 @@
+/* _tag.css */
+
+.category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.category-tag {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid var(--bookory-teal);
+    border-radius: 25px;
+    text-decoration: none;
+    color: var(--bookory-teal);
+    background-color: white;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.category-tag:hover {
+    background-color: var(--bookory-teal);
+    color: white;
+    border-color: var(--bookory-teal);
+}
+
+/* Style riêng cho category-tag bên trong book-card */
+/* Sử dụng class con 'book-category-item' để không ảnh hưởng đến .category-tag chung */
+.book-card .book-category-item {
+    font-size: 0.75rem; /* Nhỏ hơn so với tag chung */
+    padding: 4px 8px; /* Padding ít hơn */
+    border-radius: 4px; /* Bo tròn ít hơn */
+    border: 1px solid var(--bookory-light-border); /* Viền nhạt hơn */
+    color: var(--bookory-medium-text); /* Màu chữ trung tính hơn */
+    background-color: var(--bookory-light-gray); /* Nền nhạt hơn */
+    font-weight: 400; /* Font mỏng hơn */
+    /* Có thể thêm margin-right hoặc gap trên parent container nếu muốn */
+}
+
+.book-card .book-category-item:hover {
+    background-color: var(--bookory-light-teal); /* Màu hover nhẹ nhàng hơn */
+    color: var(--bookory-teal);
+    border-color: var(--bookory-teal);
+}

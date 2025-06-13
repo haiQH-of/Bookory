@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_base}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | Admin Bookory">System Settings</title>
+    
+    <th:block layout:fragment="custom-css">
+        <link rel="stylesheet" th:href="@{/css/admin/_admin_setting.css}">
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content" class="admin-content">
+        <h1 class="admin-page-title">
+            <i class="fas fa-cogs"></i> Cài Đặt Hệ Thống
+        </h1>
+        <p class="admin-page-description">Cấu hình các cài đặt chung cho ứng dụng.</p>
+
+        <div class="setting-form-container">
+            <form action="#" method="post">
+                <div class="form-group">
+                    <label for="siteName">Tên trang web:</label>
+                    <input type="text" id="siteName" name="siteName" value="Bookory" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Email liên hệ:</label>
+                    <input type="email" id="contactEmail" name="contactEmail" value="contact@bookory.com" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="itemsPerPage">Số lượng mục mỗi trang:</label>
+                    <input type="number" id="itemsPerPage" name="itemsPerPage" value="10" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu cài đặt</button>
+            </form>
+        </div>
+
+		<section class="dashboard-quick-links">
+		    <h2 class="section-title">Liên kết nhanh</h2>
+		    <div class="quick-links-grid">
+		        <a th:href="@{/admin/book}" class="quick-link-item">
+		            <i class="fas fa-book"></i> Quản lý Sách
+		        </a>
+		        
+		        <a th:href="@{/admin/user}" class="quick-link-item">
+		            <i class="fas fa-users"></i> Quản lý Người dùng
+		        </a>
+		        
+		        <a th:href="@{/admin/seller}" class="quick-link-item">
+		            <i class="fas fa-store"></i> Quản lý Người bán
+		        </a>
+		        
+		        <a th:href="@{/admin/order}" class="quick-link-item">
+		            <i class="fas fa-shopping-cart"></i> Quản lý Đơn hàng
+		        </a>
+			</div>
+		</section>
+</body>
+</html>

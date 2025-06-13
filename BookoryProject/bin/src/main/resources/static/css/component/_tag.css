@@ -1,0 +1,26 @@
+/* (Style cho genre-tag) */
+
+.category-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.category-tag {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid var(--bookory-teal);
+    border-radius: 25px;
+    text-decoration: none;
+    color: var(--bookory-teal);
+    background-color: white;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.category-tag:hover {
+    background-color: var(--bookory-teal);
+    color: white;
+    border-color: var(--bookory-teal);
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_base}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | Admin Bookory" th:text="${currentPageTitle} ?: 'Publisher Management'"></title>
+    
+    <th:block layout:fragment="custom-css">
+        <link rel="stylesheet" th:href="@{/css/admin/_admin_publisher.css}">
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content" class="admin-content">
+        <h1 class="admin-page-title">
+            <i class="fas fa-building"></i> Quản Lý Nhà Xuất Bản
+        </h1>
+        <p class="admin-page-description">Quản lý toàn bộ các nhà xuất bản sách.</p>
+
+		<section class="dashboard-stats-cards">
+            <div class="stat-card">
+                <div class="icon-wrapper bg-blue"> <i class="fas fa-users"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Tổng nhà xuất bản</h3>
+                    <p class="stat-number">20</p>
+                </div>
+            </div>
+        </section>	
+	
+        <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+        <div class="action-bar">
+            <a th:href="@{/admin/publisher/new}" class="btn btn-primary">
+                <i class="fas fa-plus-circle"></i> Thêm nhà xuất bản mới
+            </a>
+        </div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Địa chỉ</th>
+                    <th>Email liên hệ</th>
+                    <th>Đã xóa</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="publisher : ${publishers}" th:if="${!publisher.deleted}">
+                    <td th:text="${publisher.id}">1</td>
+                    <td th:text="${publisher.name}">Nhà Xuất Bản X</td>
+                    <td th:text="${publisher.address}">Địa chỉ ABC, TP.HCM</td>
+                    <td th:text="${publisher.contactEmail}">contact@nxbx.com</td>
+                    <td th:text="${publisher.deleted ? 'Có' : 'Không'}">Không</td>
+                    <td>
+                        <a th:href="@{/admin/publisher/edit/{id}(id=${publisher.id})}" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Sửa</a>
+                        <a th:href="@{/admin/publisher/delete/{id}(id=${publisher.id})}" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa mềm nhà xuất bản này không?');">
+                            <i class="fas fa-trash-alt"></i> Xóa
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(publishers) || #lists.size(publishers.?[!deleted]) == 0}">
+                    <td colspan="6" class="no-data">Không có nhà xuất bản nào.</td>
+                </tr>
+            </tbody>
+        </table>
+
+		<section class="dashboard-quick-links">
+		    <h2 class="section-title">Liên kết nhanh</h2>
+		    <div class="quick-links-grid">
+		        <a th:href="@{/admin/book}" class="quick-link-item">
+		            <i class="fas fa-book"></i> Quản lý Sách
+		        </a>
+		        
+		        <a th:href="@{/admin/user}" class="quick-link-item">
+		            <i class="fas fa-users"></i> Quản lý Người dùng
+		        </a>
+		        
+		        <a th:href="@{/admin/seller}" class="quick-link-item">
+		            <i class="fas fa-store"></i> Quản lý Người bán
+		        </a>
+		        
+		        <a th:href="@{/admin/order}" class="quick-link-item">
+		            <i class="fas fa-shopping-cart"></i> Quản lý Đơn hàng
+		        </a>
+			</div>
+		</section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+/* (Style cho các book-card, new-badge) */
+
+/* book Grid Styles */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.book-card {
+    background-color: white; /* Giữ nguyên trắng */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--bookory-shadow-medium); /* Sử dụng biến */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--bookory-shadow-strong); /* Sử dụng biến */
+}
+
+.card-image {
+    position: relative;
+    width: 100%;
+    padding-top: 72%;
+    overflow: hidden;
+}
+
+.card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-meta {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.card-meta span {
+    background-color: rgba(0,0,0,0.6);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+.card-info {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-info .category {
+    font-size: 0.9rem;
+    color: var(--bookory-teal);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.book-title {
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+    color: var(--bookory-dark-text); /* Sử dụng biến thay vì #333 */
+    font-weight: 600;
+}
+
+.author {
+    font-size: 0.95rem;
+    color: var(--bookory-medium-text); /* Sử dụng biến thay vì #777 */
+}
+
+/* New Badge for Latest Stories */
+.new-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--bookory-orange);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 10;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE | Admin - Bookory">Admin Panel</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin/_admin_common.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/_admin_layout.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/_admin_component.css}">
+    <link rel="stylesheet" th:href="@{/css/main_admin.css}">
+
+    <th:block layout:fragment="adminPageStyles"></th:block>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <div th:replace="~{fragment/admin_sidebar :: adminSidebar}"></div>
+
+        <div class="admin-main-content">
+            <div th:replace="~{fragment/admin_header :: adminHeader}"></div>
+
+            <main class="admin-content">
+                <div layout:fragment="adminContent">
+                    </div>
+            </main>
+        </div>
+    </div>
+
+    <script th:src="@{/js/admin_main.js}"></script>
+    <th:block layout:fragment="adminPageScripts"></th:block>
+</body>
+</html>

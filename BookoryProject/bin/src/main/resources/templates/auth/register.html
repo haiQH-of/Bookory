@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Ký</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="auth-section">
+            <div class="auth-card">
+                <h2>Tham gia Bookory!</h2>
+                <p class="auth-subtitle">Tạo tài khoản miễn phí để bắt đầu đọc và viết.</p>
+                
+                <form action="#" th:action="@{/register}" method="post" class="auth-form">
+                    <div class="form-group">
+                        <label for="username">Tên người dùng</label>
+                        <input type="text" id="username" name="username" placeholder="Chọn tên người dùng của bạn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Nhập địa chỉ email của bạn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" name="password" placeholder="Tạo mật khẩu mạnh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Xác nhận mật khẩu</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Đăng Ký</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Đã có tài khoản? <a href="#" th:href="@{/login}">Đăng nhập ngay!</a></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

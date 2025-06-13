@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Scripts Fragment</title>
+</head>
+
+<body>
+    <!-- 
+    NOTE: [Đã hoàn thành - Khang]
+    - Đã tách logic JS và CSS của giỏ hàng thành fragment riêng 
+    - Đã cải thiện UX với:
+      + Hiệu ứng animation khi thêm vào giỏ
+      + Icon bay vào giỏ hàng trực quan
+      + Thông báo thành công không làm gián đoạn trải nghiệm
+    - Đã tối ưu hiệu suất với AJAX thay vì reload trang
+    - Đã đảm bảo khả năng tái sử dụng trên nhiều trang
+    -->
+    <!-- Fragment cho CSS của nút thêm vào giỏ hàng -->
+    <th:block th:fragment="cart-styles">
+        <style>
+            .book-card {
+                position: relative;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                overflow: hidden;
+            }
+
+            .book-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .add-to-cart-btn {
+                position: absolute;
+                bottom: 15px;
+                right: 15px;
+                background-color: #e63946;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                opacity: 0;
+                transform: scale(0.8);
+                transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                z-index: 2;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .book-card:hover .add-to-cart-btn {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .add-to-cart-btn:hover {
+                background-color: #d62436;
+                transform: scale(1.1);
+            }
+
+            .add-to-cart-btn:active {
+                transform: scale(0.95);
+            }
+
+            .cart-icon {
+                width: 22px;
+                height: 22px;
+                stroke-width: 2;
+            }
+
+            /* Hiệu ứng khi thêm vào giỏ hàng */
+            @keyframes cartAdded {
+                0% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.2);
+                }
+
+                100% {
+                    transform: scale(1);
+                }
+            }
+
+            .cart-added {
+                animation: cartAdded 0.5s ease;
+            }
+
+            /* Hiệu ứng icon bay vào giỏ hàng */
+            @keyframes flyToCart {
+                0% {
+                    opacity: 1;
+                    transform: scale(1) translateY(0) translateX(0);
+                }
+
+                25% {
+                    opacity: 1;
+                    transform: scale(0.8) translateY(-70px) translateX(-70px);
+                }
+
+                50% {
+                    opacity: 0.8;
+                    transform: scale(0.6) translateY(-140px) translateX(-120px);
+                }
+
+                75% {
+                    opacity: 0.6;
+                    transform: scale(0.4) translateY(-210px) translateX(-140px);
+                }
+
+                100% {
+                    opacity: 0;
+                    transform: scale(0.2) translateY(-280px) translateX(-160px);
+                }
+            }
+
+            .fly-to-cart {
+                position: absolute;
+                width: 24px;
+                height: 24px;
+                background-color: #e63946;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                animation: flyToCart 0.8s ease-out forwards;
+                z-index: 1000;
+                pointer-events: none;
+            }
+
+            /* Thêm tooltip hiển thị khi hover */
+            .add-to-cart-tooltip {
+                position: absolute;
+                bottom: 70px;
+                right: 0;
+                background-color: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-size: 12px;
+                white-space: nowrap;
+                opacity: 0;
+                transform: translateY(10px);
+                transition: all 0.3s ease;
+                pointer-events: none;
+            }
+
+            .book-card:hover .add-to-cart-tooltip {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* Style cho thông báo thành công */
+            .add-success-message {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #4caf50;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 4px;
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.3s ease;
+            }
+        </style>
+    </th:block>
+
+    <!-- Fragment cho JavaScript của nút thêm vào giỏ hàng -->
+    <th:block th:fragment="cart-scripts">
+        <script>
+            function animateCartButton(button, event) {
+                // Ngăn chặn hành vi mặc định của sự kiện click
+                if (event) {
+                    event.preventDefault();
+                }
+
+                button.classList.add('cart-added');
+                setTimeout(function () {
+                    button.classList.remove('cart-added');
+                }, 500);
+
+                // Tạo hiệu ứng icon bay vào giỏ hàng
+                const flyingIcon = document.createElement('div');
+                flyingIcon.className = 'fly-to-cart';
+
+                // Tạo icon giỏ hàng bên trong
+                const iconSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                iconSVG.setAttribute("viewBox", "0 0 24 24");
+                iconSVG.setAttribute("width", "16");
+                iconSVG.setAttribute("height", "16");
+                iconSVG.setAttribute("fill", "none");
+                iconSVG.setAttribute("stroke", "currentColor");
+                iconSVG.setAttribute("stroke-width", "2");
+                iconSVG.setAttribute("stroke-linecap", "round");
+                iconSVG.setAttribute("stroke-linejoin", "round");
+
+                const circle1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle1.setAttribute("cx", "9");
+                circle1.setAttribute("cy", "21");
+                circle1.setAttribute("r", "1");
+
+                const circle2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle2.setAttribute("cx", "20");
+                circle2.setAttribute("cy", "21");
+                circle2.setAttribute("r", "1");
+
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", "M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6");
+
+                iconSVG.appendChild(circle1);
+                iconSVG.appendChild(circle2);
+                iconSVG.appendChild(path);
+                flyingIcon.appendChild(iconSVG);
+
+                // Lấy vị trí của nút và thêm icon bay vào body
+                const rect = button.getBoundingClientRect();
+                flyingIcon.style.top = rect.top + window.scrollY + 'px';
+                flyingIcon.style.left = rect.left + window.scrollX + 'px';
+                document.body.appendChild(flyingIcon);
+
+                // Xóa icon sau khi animation kết thúc
+                setTimeout(function () {
+                    if (flyingIcon.parentNode) {
+                        flyingIcon.parentNode.removeChild(flyingIcon);
+                    }
+                }, 800);
+
+                // Lấy thông tin từ form
+                const form = button.closest('form');
+                const bookId = form.querySelector('input[name="bookId"]').value;
+
+                // Sử dụng XMLHttpRequest thay vì submit form
+                setTimeout(function () {
+                    // Tạo một thông báo thành công
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'add-success-message';
+                    successMsg.textContent = 'Đã thêm vào giỏ hàng!';
+                    document.body.appendChild(successMsg);
+
+                    // Hiển thị thông báo
+                    setTimeout(function () {
+                        successMsg.style.opacity = '1';
+                        successMsg.style.transform = 'translateY(0)';
+                    }, 10);
+
+                    // Xóa thông báo sau 3 giây
+                    setTimeout(function () {
+                        successMsg.style.opacity = '0';
+                        successMsg.style.transform = 'translateY(-20px)';
+                        setTimeout(function () {
+                            if (successMsg.parentNode) {
+                                successMsg.parentNode.removeChild(successMsg);
+                            }
+                        }, 300);
+                    }, 3000);
+
+                    // Gửi request AJAX đến endpoint thêm vào giỏ hàng
+                    fetch(`/cart/add?bookId=${bookId}&redirectToHome=false`, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Lỗi khi thêm vào giỏ hàng');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Lỗi:', error);
+                        });
+                }, 600);
+
+                return false;
+            }
+        </script>
+    </th:block>
+</body>
+
+</html>

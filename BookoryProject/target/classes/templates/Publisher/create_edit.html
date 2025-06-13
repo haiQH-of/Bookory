@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="${pageTitle} ?: (${isEdit} ? 'Chỉnh sửa nhà xuất bản' : 'Thêm nhà xuất bản mới')">Form nhà xuất bản</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        /* Giữ nguyên hoặc bổ sung style theo author */
+        .container {
+            max-width: 700px;
+            margin-top: 40px;
+        }
+        .card-header {
+            background: #5a2d82;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.4rem;
+        }
+        .btn-submit {
+            background: #5a2d82;
+            border: none;
+            padding: 10px 28px;
+            font-weight: 600;
+        }
+        .btn-submit:hover {
+            background: #47215f;
+        }
+        .btn-cancel {
+            padding: 10px 28px;
+            font-weight: 600;
+        }
+        .form-label {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container">
+    <div class="card shadow-sm">
+        <div class="card-header text-center">
+            <i class="fas fa-building me-2"></i>
+            <span th:text="${pageTitle} ?: (${isEdit} ? 'Chỉnh sửa nhà xuất bản' : 'Thêm nhà xuất bản mới')">Thêm nhà xuất bản mới</span>
+        </div>
+        <div class="card-body">
+
+            <!-- Thông báo -->
+            <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${successMessage}">Thành công</span>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <span th:text="${errorMessage}">Lỗi</span>
+            </div>
+
+            <!-- Form -->
+            <form th:action="@{/admin/publisher/save}" th:object="${publisher}" method="post" novalidate>
+                <input type="hidden" th:field="*{id}" th:if="${isEdit}" />
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Tên nhà xuất bản <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="name" placeholder="Nhập tên nhà xuất bản" 
+                           th:field="*{name}" required />
+                    <div class="invalid-feedback">Tên nhà xuất bản không được để trống.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Địa chỉ</label>
+                    <textarea class="form-control" id="address" rows="3" placeholder="Nhập địa chỉ nhà xuất bản"
+                              th:field="*{address}"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="contactEmail" class="form-label">Email liên hệ</label>
+                    <input type="email" class="form-control" id="contactEmail" placeholder="contact@publisher.com"
+                           th:field="*{contactEmail}" />
+                </div>
+
+                <div class="mb-3 form-check form-switch" th:if="${isEdit}">
+                    <input class="form-check-input" type="checkbox" id="deleted" th:field="*{deleted}" />
+                    <label class="form-check-label" for="deleted">
+                        <i class="fas fa-eye-slash me-1 text-warning"></i> Ẩn nhà xuất bản này
+                    </label>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a th:href="@{/admin/publisher}" class="btn btn-outline-secondary btn-cancel">
+                        <i class="fas fa-times me-1"></i> Hủy bỏ
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-submit">
+                        <i class="fas fa-save me-1"></i> <span th:text="${isEdit} ? 'Cập nhật' : 'Thêm mới'">Lưu</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    (function() {
+        'use strict';
+
+        const form = document.querySelector('form');
+        if (!form) return;
+
+        form.addEventListener('submit', function(event) {
+            const nameInput = document.getElementById('name');
+            if (!nameInput.value.trim()) {
+                event.preventDefault();
+                event.stopPropagation();
+                nameInput.classList.add('is-invalid');
+                nameInput.focus();
+            } else {
+                nameInput.classList.remove('is-invalid');
+            }
+        });
+
+        document.getElementById('name').addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+        });
+    })();
+</script>
+
+</body>
+</html>

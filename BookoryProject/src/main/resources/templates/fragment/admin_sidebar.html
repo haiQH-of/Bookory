@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <aside th:fragment="admin-sidebar" class="admin-sidebar">
+        <nav class="admin-nav">
+            <ul>
+                <li>
+                    <a href="#" th:href="@{/admin/dashboard}">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" th:href="@{/admin/user}">
+                        <i class="fas fa-users"></i> Người dùng
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" th:href="@{/admin/book}">
+                        <i class="fas fa-book"></i> Sách
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" th:href="@{/admin/author}">
+                        <i class="fas fa-feather-alt"></i> Tác giả
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" th:href="@{/admin/publisher}">
+                        <i class="fas fa-building"></i> Nhà xuất bản
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" th:href="@{/admin/order}">
+                        <i class="fas fa-shopping-cart"></i> Đơn hàng
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" th:href="@{/admin/seller}">
+                        <i class="fas fa-store"></i> Người bán
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" th:href="@{/admin/category}">
+                        <i class="fas fa-th-large"></i> Danh mục
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#" th:href="@{/admin/setting}">
+                        <i class="fas fa-cogs"></i> Cài đặt
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Chi tiết tác giả</title>
+</head>
+<body>
+    <h1 th:text="${pageTitle}">Chi tiết tác giả</h1>
+
+    <p><strong>ID:</strong> <span th:text="${author.id}">1</span></p>
+    <p><strong>Tên tác giả:</strong> <span th:text="${author.name}">Tên</span></p>
+
+    <a th:href="@{'/author/edit/' + ${author.id}}">Chỉnh sửa</a> |
+    <a th:href="@{'/author/delete/' + ${author.id}}"
+       onclick="return confirm('Bạn có chắc chắn muốn xóa tác giả này?');">Xóa</a> |
+    <a href="/author">Quay lại danh sách</a>
+</body>
+</html>

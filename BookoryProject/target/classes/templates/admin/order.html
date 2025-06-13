@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/admin_base}">
+
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | Admin Bookory" th:text="${currentPageTitle} ?: 'Order Management'">
+    </title>
+
+    <th:block layout:fragment="custom-css">
+        <link rel="stylesheet" th:href="@{/css/admin/_admin_order.css}">
+    </th:block>
+</head>
+
+<body>
+    <div layout:fragment="content" class="admin-content">
+        <h1 class="admin-page-title">
+            <i class="fas fa-shopping-cart"></i> Quản Lý Đơn Hàng
+        </h1>
+        <p class="admin-page-description">Quản lý toàn bộ các đơn hàng của Bookory.</p>
+
+        <div class="page-actions">
+            <a th:href="@{/admin/order/deleted}" class="btn btn-secondary">
+                <i class="fas fa-trash-alt"></i> Xem Đơn Hàng Đã Xóa
+            </a>
+        </div>
+
+        <section class="dashboard-stats-cards">
+            <div class="stat-card">
+                <div class="icon-wrapper bg-blue">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Tổng đơn hàng</h3>
+                    <p class="stat-number" th:text="${totalOrders}">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-wrapper bg-green">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Tổng doanh thu</h3>
+                    <p class="stat-number" th:text="${#numbers.formatCurrency(totalRevenue)}">0đ</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-wrapper bg-orange">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Đơn hàng đang xử lý</h3>
+                    <p class="stat-number" th:text="${pendingOrders}">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-wrapper bg-purple">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Đơn hàng đã giao</h3>
+                    <p class="stat-number" th:text="${deliveredOrders}">0</p>
+                </div>
+            </div>
+        </section>
+
+        <div th:if="${success}" class="alert alert-success" role="alert" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Người dùng</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Địa chỉ giao hàng</th>
+                    <th>Phương thức TT</th>
+                    <th>Trạng thái TT</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order : ${orders}" th:if="${!order.deleted}" th:style="'cursor: pointer;'"
+                    th:onclick="'window.location.href=\'' + @{/admin/order/view/{id}(id=${order.id})} + '\''">
+                    <td th:text="${order.id}">1</td>
+                    <td th:text="${order.user?.username ?: 'N/A'}">user123</td>
+                    <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">2023-01-01</td>
+                    <td th:text="${#numbers.formatCurrency(order.totalAmount)}">150.000đ</td>
+                    <td>
+                        <span th:class="${'status-badge ' + (order.status == 'PENDING' ? 'status-pending' : 
+                                             order.status == 'SHIPPED' ? 'status-shipped' : 
+                                             order.status == 'DELIVERED' ? 'status-delivered' : 'status-cancelled')}"
+                            th:text="${order.status}">PENDING</span>
+                    </td>
+                    <td th:text="${order.shippingAddress}">123 Đường ABC, Quận XYZ, TP.HCM</td>
+                    <td th:text="${order.paymentMethod}">Thanh toán khi nhận hàng</td>
+                    <td>
+                        <span
+                            th:class="${'status-badge ' + (order.paymentStatus == 'PAID' ? 'status-paid' : 'status-unpaid')}"
+                            th:text="${order.paymentStatus}">UNPAID</span>
+                    </td>
+                    <td>
+                        <a th:href="@{/admin/order/view/{id}(id=${order.id})}" class="btn btn-sm btn-info">
+                            <i class="fas fa-eye"></i> Xem
+                        </a>
+                        <a th:href="@{/admin/order/delete/{id}(id=${order.id})}" class="btn btn-sm btn-danger"
+                            onclick="event.stopPropagation(); return confirm('Bạn có chắc chắn muốn xóa mềm đơn hàng này không?');">
+                            <i class="fas fa-trash-alt"></i> Xóa
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(orders) || #lists.size(orders.?[!deleted]) == 0}">
+                    <td colspan="9" class="no-data">Không có đơn hàng nào.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <section class="dashboard-quick-links">
+            <h2 class="section-title">Liên kết nhanh</h2>
+            <div class="quick-links-grid">
+                <a th:href="@{/admin/book}" class="quick-link-item">
+                    <i class="fas fa-book"></i> Quản lý Sách
+                </a>
+
+                <a th:href="@{/admin/user}" class="quick-link-item">
+                    <i class="fas fa-users"></i> Quản lý Người dùng
+                </a>
+
+                <a th:href="@{/admin/seller}" class="quick-link-item">
+                    <i class="fas fa-store"></i> Quản lý Người bán
+                </a>
+
+                <a th:href="@{/admin/dashboard}" class="quick-link-item">
+                    <i class="fas fa-tachometer-alt"></i> Bảng điều khiển
+                </a>
+            </div>
+        </section>
+
+        <style>
+            .page-actions {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 20px;
+            }
+
+            .btn-secondary {
+                background-color: #6c757d;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 4px;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                font-size: 14px;
+            }
+
+            .btn-secondary i {
+                margin-right: 6px;
+            }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
+            }
+
+            .status-badge {
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            .status-pending {
+                background-color: #ffeeba;
+                color: #856404;
+            }
+
+            .status-shipped {
+                background-color: #b8daff;
+                color: #004085;
+            }
+
+            .status-delivered {
+                background-color: #c3e6cb;
+                color: #155724;
+            }
+
+            .status-cancelled {
+                background-color: #f5c6cb;
+                color: #721c24;
+            }
+
+            .status-paid {
+                background-color: #c3e6cb;
+                color: #155724;
+            }
+
+            .status-unpaid {
+                background-color: #f5c6cb;
+                color: #721c24;
+            }
+
+            .dashboard-stats-cards {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+            .stat-card {
+                display: flex;
+                align-items: center;
+                background-color: white;
+                border-radius: 8px;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .icon-wrapper {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 15px;
+                color: white;
+                font-size: 24px;
+            }
+
+            .bg-blue {
+                background-color: #4e73df;
+            }
+
+            .bg-green {
+                background-color: #1cc88a;
+            }
+
+            .bg-orange {
+                background-color: #f6c23e;
+            }
+
+            .bg-purple {
+                background-color: #8c54ff;
+            }
+
+            .info-wrapper h3 {
+                margin: 0 0 5px 0;
+                font-size: 14px;
+                color: #666;
+            }
+
+            .stat-number {
+                font-size: 24px;
+                font-weight: bold;
+                margin: 0;
+                color: #333;
+            }
+        </style>
+    </div>
+</body>
+
+</html>

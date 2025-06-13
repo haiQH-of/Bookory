@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: (${isEdit} ? 'Chỉnh sửa thể loại' : 'Thêm thể loại mới')">Form thể loại</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        .char-counter {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/admin/category" class="text-decoration-none">
+                    <i class="fas fa-tags me-1"></i>Thể loại
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${isEdit} ? 'Chỉnh sửa' : 'Thêm mới'">Thêm mới</li>
+        </ol>
+    </nav>
+
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <span th:text="${successMessage}">Thành công</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <span th:text="${errorMessage}">Lỗi</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card shadow-sm rounded">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-tags me-2"></i>
+                        <span th:text="${pageTitle} ?: (${isEdit} ? 'Chỉnh sửa thể loại' : 'Thêm thể loại mới')">Form thể loại</span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/category/save}" th:object="${category}" method="post" id="categoryForm">
+                        <input type="hidden" th:field="*{id}" th:if="${isEdit}"/>
+
+                        <!-- Tên thể loại -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                <i class="fas fa-tag text-primary me-1"></i>
+                                Tên thể loại <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-signature"></i></span>
+                                <input type="text" id="name" th:field="*{name}" 
+                                       class="form-control" 
+                                       placeholder="Nhập tên thể loại" 
+                                       maxlength="255" 
+                                       required>
+                            </div>
+                            <div class="char-counter mt-1">
+                                <span id="nameCounter">0</span>/255 ký tự
+                            </div>
+                        </div>
+
+                        <!-- Trạng thái ẩn (chỉ khi chỉnh sửa) -->
+                        <div class="mb-4" th:if="${isEdit}">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="deleted" th:field="*{deleted}">
+                                        <label class="form-check-label fw-bold" for="deleted">
+                                            <i class="fas fa-eye-slash text-warning me-2"></i>
+                                            Ẩn thể loại này
+                                        </label>
+                                    </div>
+                                    <div class="form-text text-warning mt-2">
+                                        <i class="fas fa-info-circle"></i>
+                                        Thể loại bị ẩn sẽ không hiển thị trong danh sách chính nhưng vẫn giữ nguyên dữ liệu
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="/admin/category" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Quay lại
+                            </a>
+                            <div>
+                                <button type="reset" class="btn btn-outline-warning me-2" th:unless="${isEdit}">
+                                    <i class="fas fa-undo me-1"></i>Làm mới
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i>
+                                    <span th:text="${isEdit} ? 'Cập nhật' : 'Thêm mới'">Lưu</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4 border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title text-primary">
+                        <i class="fas fa-lightbulb me-2"></i>Hướng dẫn sử dụng
+                    </h6>
+                    <ul class="list-unstyled small text-muted mb-0">
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Tên thể loại là thông tin bắt buộc</li>
+                        <li class="mb-1"><i class="fas fa-check text-success me-2"></i>Tên thể loại nên là duy nhất trong hệ thống</li>
+                        <li class="mb-1" th:if="${isEdit}"><i class="fas fa-check text-success me-2"></i>Có thể ẩn thể loại thay vì xóa hoàn toàn</li>
+                        <li class="mb-1"><i class="fas fa-info-circle text-info me-2"></i>Giới hạn tên thể loại 255 ký tự</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Character counter cho tên thể loại
+    const nameInput = document.getElementById('name');
+    const nameCounter = document.getElementById('nameCounter');
+    
+    function updateNameCounter() {
+        const length = nameInput.value.length;
+        nameCounter.textContent = length;
+        
+        if (length > 240) {
+            nameCounter.parentElement.classList.add('text-warning');
+        } else {
+            nameCounter.parentElement.classList.remove('text-warning');
+        }
+    }
+    
+    nameInput.addEventListener('input', updateNameCounter);
+    updateNameCounter();
+    
+    // Validate form
+    const form = document.getElementById('categoryForm');
+    form.addEventListener('submit', function(e) {
+        const name = nameInput.value.trim();
+        
+        if (!name) {
+            e.preventDefault();
+            alert('Vui lòng nhập tên thể loại!');
+            nameInput.focus();
+            return false;
+        }
+        
+        if (name.length > 255) {
+            e.preventDefault();
+            alert('Tên thể loại không được vượt quá 255 ký tự!');
+            nameInput.focus();
+            return false;
+        }
+    });
+});
+</script>
+</body>
+</html>

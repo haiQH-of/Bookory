@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_base}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | Admin Bookory">Dashboard</title>
+    
+    <th:block layout:fragment="custom-css">
+        <link rel="stylesheet" th:href="@{/css/admin/_admin_dashboard.css}">
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content" class="admin-dashboard-content">
+        <h1 class="admin-page-title">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </h1>
+        <p class="admin-page-description">Tổng quan về các hoạt động và số liệu thống kê của Bookory.</p>
+
+        <section class="dashboard-stats-cards">
+            <div class="stat-card">
+                <div class="icon-wrapper bg-teal">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Tổng số truyện</h3>
+                    <p class="stat-number">1200</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon-wrapper bg-orange">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Tổng số người dùng</h3>
+                    <p class="stat-number">5000</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon-wrapper bg-blue">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Bình luận mới</h3>
+                    <p class="stat-number">150</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icon-wrapper bg-green">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Đánh giá mới</h3>
+                    <p class="stat-number">75</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-recent-activity">
+            <h2 class="section-title">Hoạt động gần đây</h2>
+            <div class="recent-activity-list">
+                <div class="activity-item">
+                    <span class="activity-type">[Truyện mới]</span>
+                    <span class="activity-detail">"Hành trình của Dũng Sĩ" của Nguyễn Văn A đã được đăng.</span>
+                    <span class="activity-time">5 phút trước</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-type">[Bình luận mới]</span>
+                    <span class="activity-detail">Người dùng "Thanh.NT" bình luận về "Bí mật của Rừng Sâu".</span>
+                    <span class="activity-time">20 phút trước</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-type">[Đăng ký mới]</span>
+                    <span class="activity-detail">Người dùng "Minh.HQ" vừa đăng ký tài khoản.</span>
+                    <span class="activity-time">1 giờ trước</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-quick-links">
+            <h2 class="section-title">Liên kết nhanh</h2>
+            <div class="quick-links-grid">
+                <a th:href="@{/admin/story}" class="quick-link-item">
+                    <i class="fas fa-pencil-alt"></i> Quản lý truyện
+                </a>
+                <a th:href="@{/admin/user}" class="quick-link-item">
+                    <i class="fas fa-user-cog"></i> Quản lý người dùng
+                </a>
+                <a th:href="@{/admin/comment}" class="quick-link-item">
+                    <i class="fas fa-comment-dots"></i> Kiểm duyệt bình luận
+                </a>
+                <a th:href="@{/admin/setting}" class="quick-link-item">
+                    <i class="fas fa-sliders-h"></i> Cài đặt hệ thống
+                </a>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

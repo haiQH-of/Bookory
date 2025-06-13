@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+
+<head>
+    <title>Danh sách sách</title>
+    <th:block th:replace="fragment/cart-scripts :: cart-styles"></th:block>
+    
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h2>Danh sách sách</h2>
+        <div class="book-grid">
+        
+        
+<div class="book-card" th:each="book : ${allBooks}">
+                        <a th:href="@{/book/{id}(id=${book.id})}" class="book-card-link">
+                            <div class="card-image">
+                                <img th:src="${book.coverImageUrl != null ? '/images/' + book.coverImageUrl : '/images/default-cover.jpg'}"
+                                    th:alt="${book.title != null ? book.title : 'Sách'}" />
+                                <div class="card-meta">
+                                    <span class="price"
+                                        th:text="${book.price != null ? #numbers.formatDecimal(book.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ' : 'N/A'}"></span>
+                                </div>
+                            </div>
+                            <div class="card-info">
+                                <div class="category-tags-container">
+                                    <th:block th:if="${book.bookCategories != null && !book.bookCategories.empty}">
+                                        <span class="category-tag book-category-item"
+                                            th:each="bookCategory : ${book.bookCategories}"
+                                            th:text="${bookCategory.category.name}">Kỳ Ảo</span>
+                                    </th:block>
+                                    <span class="category-tag book-category-item"
+                                        th:unless="${book.bookCategories != null && !book.bookCategories.empty}">Không
+                                        có thể loại</span>
+                                </div>
+
+                                <h3 class="book-title" th:text="${book.title}">Tên Sách Nổi Bật</h3>
+                                <p class="author"
+                                    th:text="${book.seller != null && book.seller.user != null ? 'bởi ' + book.seller.user.displayName : 'bởi N/A'}">
+                                    bởi Tác giả/Người bán</p>
+                            </div>
+                        </a>
+                        <!-- Sử dụng fragment nút thêm vào giỏ hàng -->
+                        <th:block th:replace="fragment/cart-button :: add-to-cart-button(${book.id})"></th:block>
+                    </div>
+        
+        </div>
+         <th:block th:replace="fragment/cart-scripts :: cart-scripts"></th:block>
+    </div>
+</body>
+</html>

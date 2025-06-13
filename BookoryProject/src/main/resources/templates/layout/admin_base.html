@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title layout:title-pattern="$CONTENT_TITLE | Admin - Bookory">Admin Panel</title>
+
+    <link rel="stylesheet" th:href="@{/css/main_admin.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <th:block layout:fragment="custom-css"></th:block>
+</head>
+<body>
+    <div class="admin-wrapper">
+
+        <div th:replace="~{fragment/admin_header :: admin-header}"></div>
+
+        <div class="admin-main-content-wrapper">
+            <div th:replace="~{fragment/admin_sidebar :: admin-sidebar}"></div>
+
+            <main class="admin-page-content" layout:fragment="content">
+                <!-- Nội dung trang con sẽ hiển thị tại đây -->
+            </main>
+        </div>
+    </div>
+
+    <th:block layout:fragment="custom-js"></th:block>
+</body>
+</html>

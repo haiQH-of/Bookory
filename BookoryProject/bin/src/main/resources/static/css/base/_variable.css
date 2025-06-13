@@ -1,0 +1,29 @@
+/* (Chứa các biến CSS như màu sắc, font-family) */
+
+/* Bookory Color Palette */
+:root {
+    --bookory-teal: #26A69A; /* Xanh Teal chính */
+    --bookory-dark-teal: #1a7d72; /* Xanh Teal đậm hơn cho hover/shadow */
+    --bookory-orange: #FFA726; /* Vàng Cam chính */
+    --bookory-dark-orange: #ff8c00; /* Vàng Cam đậm hơn cho hover */
+    --bookory-dark-blue: #2c3e50; /* Màu nền footer/header */
+    --bookory-light-gray: #f8f8f8; /* Màu nền nhẹ nhàng cho body */
+    --bookory-medium-gray: #f0f0f0; /* Nền cho search bar, explore genre */
+    --bookory-dark-text: #333; /* Màu chữ chính */
+    --bookory-medium-text: #555; /* Màu chữ phụ */
+    --bookory-light-border: #ddd; /* Màu border nhẹ */
+    --bookory-shadow-light: rgba(0,0,0,0.02); /* Shadow rất nhẹ */
+    --bookory-shadow-medium: rgba(0,0,0,0.05); /* Shadow trung bình */
+    --bookory-shadow-strong: rgba(0,0,0,0.1); /* Shadow mạnh hơn */
+    --bookory-shadow-stronger: rgba(0,0,0,0.15); /* Shadow rõ rệt */
+    --bookory-shadow-button-primary: rgba(255, 167, 38, 0.3); /* Shadow cho nút primary */
+    --bookory-shadow-button-primary-hover: rgba(255, 167, 38, 0.4); /* Shadow cho nút primary khi hover */
+    --bookory-shadow-button-cta: rgba(0,0,0,0.3); /* Shadow cho nút CTA */
+    --bookory-shadow-button-cta-hover: rgba(0,0,0,0.4); /* Shadow cho nút CTA khi hover */
+    
+    /* Bổ sung biến màu cam trong suốt cho Hero Overlay */
+    --bookory-orange-transparent-40: rgba(255, 167, 38, 0.4); 
+
+    /* Font Family */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

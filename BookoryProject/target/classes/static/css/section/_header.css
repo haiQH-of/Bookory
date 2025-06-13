@@ -1,0 +1,83 @@
+/* (Style cho main-header, logo, search-bar, main-nav) */
+
+/* Header Styles */
+.main-header {
+    background-color: white; /* Giữ nguyên trắng */
+    box-shadow: 0 2px 4px var(--bookory-shadow-medium); /* Sử dụng biến thay vì rgba(0,0,0,0.05) */
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    height: 46px;
+    width: 170px;
+    object-fit: cover;
+    margin-top: 5px;
+}
+
+.search-bar {
+    display: flex;
+    flex-grow: 1;
+    margin: 0 20px;
+    max-width: 700px;
+    border: 1px solid var(--bookory-light-border); /* Sử dụng biến thay vì #ddd */
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: var(--bookory-medium-gray); /* Sử dụng biến thay vì #f0f0f0 */
+}
+
+.search-bar input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px 15px;
+    outline: none;
+    background-color: transparent;
+    font-size: 1rem;
+}
+
+.search-bar button {
+    background-color: transparent;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: var(--bookory-medium-text); /* Sử dụng biến thay vì #555 */
+    font-size: 1.1rem;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+.main-nav li {
+    margin-left: 25px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--bookory-medium-text); /* Sử dụng biến thay vì #555 */
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: var(--bookory-teal);
+}
+
+/* Đã dùng .btn-primary ở trên, đây là style riêng cho nút header */
+.header-container .btn-primary {
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: bold;
+}

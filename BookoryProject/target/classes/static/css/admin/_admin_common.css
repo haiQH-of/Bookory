@@ -1,0 +1,141 @@
+/* src/main/resources/static/css/admin/_admin_common.css */
+
+/* ==========================================================================
+   COMMON ADMIN STYLES (Các style chung cho trang quản trị)
+   ========================================================================== */
+
+/* Tiêu đề trang */
+.admin-page-title {
+    margin-bottom: 20px;
+    font-size: 26px; /* Điều chỉnh font size nếu muốn */
+    color: var(--admin-heading-color, #2C3E50);
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa icon và text */
+}
+
+.admin-page-title i {
+    color: var(--admin-primary-color, #4A90E2); /* Màu icon */
+}
+
+.admin-page-description {
+    color: var(--admin-text-color-light, #7f8c8d);
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+/* Thanh hành động (Add button, search bar, etc.) */
+.action-bar {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: flex-end; /* Đẩy các nút sang phải */
+    gap: 15px; /* Khoảng cách giữa các nút */
+}
+
+/* Nút chung (có thể dùng lại từ _admin_layout.css hoặc định nghĩa lại nếu muốn khác) */
+.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--admin-primary-color, #4A90E2);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--admin-primary-hover, #357ABD);
+    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+}
+
+.btn-info {
+    background-color: var(--admin-info-color, #3498DB);
+    color: white;
+}
+.btn-info:hover {
+    background-color: var(--admin-info-hover, #217DBB);
+}
+
+.btn-danger {
+    background-color: var(--admin-danger-color, #E74C3C);
+    color: white;
+}
+.btn-danger:hover {
+    background-color: var(--admin-danger-hover, #C0392B);
+}
+
+.btn-sm { /* Kích thước nút nhỏ */
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+
+/* Bảng dữ liệu chung */
+.data-table { /* Đổi tên thành .data-table để rõ ràng hơn */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Điều chỉnh lại margin-top */
+    background-color: var(--admin-card-bg, #FFFFFF);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px var(--admin-shadow-light, rgba(0, 0, 0, 0.05));
+    border: 1px solid var(--admin-border-color, #E6ECF0);
+}
+
+/* Header của bảng */
+.data-table thead {
+    background-color: var(--admin-primary-color, #4A90E2);
+    color: white;
+    font-weight: 600;
+}
+
+.data-table th {
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Các ô dữ liệu */
+.data-table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--admin-border-color, #E6ECF0);
+    color: var(--admin-text-color, #34495e);
+    font-size: 14px;
+}
+
+/* Hiệu ứng hover cho hàng */
+.data-table tbody tr:hover {
+    background-color: #f5f5f5;
+    transition: background-color 0.2s ease;
+}
+
+/* Hàng cuối cùng không có border dưới */
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Căn chỉnh cột ID (áp dụng chung nếu có cột ID đầu tiên) */
+.data-table td:first-child, .data-table th:first-child {
+    width: 50px;
+    text-align: center;
+}
+
+/* Style cho thông báo không có dữ liệu */
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+    font-style: italic;
+}

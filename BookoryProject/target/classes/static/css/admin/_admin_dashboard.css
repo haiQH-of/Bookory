@@ -1,0 +1,13 @@
+/* src/main/resources/static/css/admin/_admin_dashboard.css */
+
+/* Không cần nhiều style ở đây nếu các thành phần đã được định nghĩa trong _admin_components.css */
+/* Có thể dùng cho các biểu đồ, widget đặc biệt của dashboard */
+
+/* Ví dụ: */
+.dashboard-chart-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-top: 30px;
+}

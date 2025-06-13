@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title layout:title-pattern="$CONTENT_TITLE | Bookory">Bookory - Discover Stories</title>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+    <div th:replace="~{fragment/header :: header}"></div>
+
+    <main class="main-content" layout:fragment="content">
+        <!-- Nội dung trang con sẽ hiển thị tại đây -->
+    </main>
+
+    <div th:replace="~{fragment/footer :: footer}"></div>
+
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

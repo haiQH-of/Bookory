@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin_base}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | Admin Bookory" th:text="${currentPageTitle} ?: 'Category Management'"></title>
+    
+    <th:block layout:fragment="custom-css">
+        <link rel="stylesheet" th:href="@{/css/admin/_admin_category.css}">
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content" class="admin-content">
+        <h1 class="admin-page-title">
+            <i class="fas fa-tags"></i> Quản Lý Thể Loại
+        </h1>
+        <p class="admin-page-description">Quản lý toàn bộ các thể loại sách.</p>
+        
+        <section class="dashboard-stats-cards">
+            <div class="stat-card">
+                <div class="icon-wrapper bg-blue"> <i class="fas fa-users"></i>
+                </div>
+                <div class="info-wrapper">
+                    <h3>Tổng thể loại</h3>
+                    <p class="stat-number">20</p>
+                </div>
+            </div>
+        </section>	
+
+        <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+        <div class="action-bar">
+            <a th:href="@{/admin/category/new}" class="btn btn-primary">
+                <i class="fas fa-plus-circle"></i> Thêm thể loại mới
+            </a>
+        </div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên thể loại</th>
+                    <th>Đã xóa</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="category : ${categories}" th:if="${!category.deleted}">
+                    <td th:text="${category.id}">1</td>
+                    <td th:text="${category.name}">Thể loại A</td>
+                    <td th:text="${category.deleted ? 'Có' : 'Không'}">Không</td>
+                    <td>
+                        <a th:href="@{/admin/category/edit/{id}(id=${category.id})}" class="btn btn-sm btn-info"><i class="fas fa-edit"></i> Sửa</a>
+                        <a th:href="@{/admin/category/delete/{id}(id=${category.id})}" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa mềm thể loại này không?');">
+                            <i class="fas fa-trash-alt"></i> Xóa
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(categories) || #lists.size(categories.?[!deleted]) == 0}">
+                    <td colspan="4" class="no-data">Không có thể loại nào.</td>
+                </tr>
+            </tbody>
+        </table>
+
+		<section class="dashboard-quick-links">
+		    <h2 class="section-title">Liên kết nhanh</h2>
+		    <div class="quick-links-grid">
+		        <a th:href="@{/admin/book}" class="quick-link-item">
+		            <i class="fas fa-book"></i> Quản lý Sách
+		        </a>
+		        
+		        <a th:href="@{/admin/user}" class="quick-link-item">
+		            <i class="fas fa-users"></i> Quản lý Người dùng
+		        </a>
+		        
+		        <a th:href="@{/admin/seller}" class="quick-link-item">
+		            <i class="fas fa-store"></i> Quản lý Người bán
+		        </a>
+		        
+		        <a th:href="@{/admin/order}" class="quick-link-item">
+		            <i class="fas fa-shopping-cart"></i> Quản lý Đơn hàng
+		        </a>
+			</div>
+		</section>
+    </div>
+</body>
+</html>

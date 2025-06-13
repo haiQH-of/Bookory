@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base}">
+
+<head>
+    <title>Đơn Hàng Của Tôi | Bookory</title>
+    <th:block layout:fragment="custom-css">
+        <style>
+            .orders-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+                color: #333;
+                border-bottom: 2px solid #f0f0f0;
+                padding-bottom: 10px;
+            }
+
+            .orders-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 30px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .orders-table th {
+                background-color: #f8f8f8;
+                color: #333;
+                font-weight: 600;
+            }
+
+            .orders-table tr:hover {
+                background-color: #f5f5f5;
+                cursor: pointer;
+            }
+
+            .status-badge {
+                display: inline-block;
+                padding: 5px 10px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            .status-pending {
+                background-color: #ffeeba;
+                color: #856404;
+            }
+
+            .status-shipped {
+                background-color: #b8daff;
+                color: #004085;
+            }
+
+            .status-delivered {
+                background-color: #c3e6cb;
+                color: #155724;
+            }
+
+            .status-cancelled {
+                background-color: #f5c6cb;
+                color: #721c24;
+            }
+
+            .status-paid {
+                background-color: #c3e6cb;
+                color: #155724;
+            }
+
+            .status-unpaid {
+                background-color: #f5c6cb;
+                color: #721c24;
+            }
+
+            .no-orders {
+                text-align: center;
+                padding: 30px;
+                font-size: 16px;
+                color: #666;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                margin-bottom: 20px;
+            }
+
+            .back-button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                margin-top: 20px;
+                transition: background-color 0.3s;
+            }
+
+            .back-button:hover {
+                background-color: #45a049;
+            }
+        </style>
+    </th:block>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="orders-container">
+            <h1 class="page-title">Đơn Hàng Của Tôi</h1>
+
+            <div class="no-orders" th:if="${#lists.isEmpty(orders)}">
+                Bạn chưa có đơn hàng nào. Hãy mua sắm ngay!
+                <p><a th:href="@{/}" class="back-button">Quay Lại Trang Chủ</a></p>
+            </div>
+
+            <table class="orders-table" th:if="${not #lists.isEmpty(orders)}">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Ngày Đặt</th>
+                        <th>Tổng Tiền</th>
+                        <th>Trạng Thái</th>
+                        <th>Thanh Toán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order : ${orders}"
+                        th:onclick="'window.location.href=\'' + @{/user/orders/{id}(id=${order.id})} + '\''">
+                        <td th:text="${'#' + order.id}">1</td>
+                        <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}">01-01-2023</td>
+                        <td th:text="${#numbers.formatCurrency(order.totalAmount)}">150.000đ</td>
+                        <td>
+                            <span th:class="${'status-badge ' + (order.status == 'PENDING' ? 'status-pending' : 
+                                             order.status == 'SHIPPED' ? 'status-shipped' : 
+                                             order.status == 'DELIVERED' ? 'status-delivered' : 'status-cancelled')}"
+                                th:text="${order.status}">PENDING</span>
+                        </td>
+                        <td>
+                            <span
+                                th:class="${'status-badge ' + (order.paymentStatus == 'PAID' ? 'status-paid' : 'status-unpaid')}"
+                                th:text="${order.paymentStatus}">UNPAID</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a th:href="@{/}" class="back-button">Quay Lại Trang Chủ</a>
+        </div>
+    </div>
+</body>
+
+</html>

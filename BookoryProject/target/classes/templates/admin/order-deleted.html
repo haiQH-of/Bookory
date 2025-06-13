@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--
+NOTE: [Đã hoàn thành - Khang]
+- Đã tạo trang hiển thị danh sách đơn hàng đã xóa mềm
+- Đã thêm chức năng khôi phục đơn hàng đã xóa
+- Đã thiết kế giao diện trực quan, dễ sử dụng
+- Đã đồng bộ phong cách với trang quản lý đơn hàng chính
+-->
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/admin_base}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Đơn Hàng Đã Xóa</title>
+    <style>
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .order-table th,
+        .order-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .order-table th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .order-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-view {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-restore {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .btn-group a {
+            margin-right: 5px;
+            text-decoration: none;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="header-actions">
+            <h1>Đơn Hàng Đã Xóa</h1>
+            <a th:href="@{/admin/order}" class="back-btn">Quay Lại Danh Sách Đơn Hàng</a>
+        </div>
+
+        <!-- Hiển thị thông báo -->
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <!-- Danh sách đơn hàng -->
+        <div th:if="${orders != null && !orders.empty}">
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Khách Hàng</th>
+                        <th>Ngày Đặt</th>
+                        <th>Tổng Tiền</th>
+                        <th>Trạng Thái</th>
+                        <th>Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.id}">1</td>
+                        <td th:text="${order.user.username}">username</td>
+                        <td th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">01/01/2025</td>
+                        <td th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">
+                            100,000 VNĐ</td>
+                        <td th:text="${order.status}">PENDING</td>
+                        <td class="btn-group">
+                            <a th:href="@{/admin/order/view/{id}(id=${order.id})}" class="btn btn-view">Xem</a>
+                            <a th:href="@{/admin/order/restore/{id}(id=${order.id})}" class="btn btn-restore"
+                                onclick="return confirm('Bạn có chắc muốn khôi phục đơn hàng này?')">Khôi Phục</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Thông báo không có đơn hàng -->
+        <div th:if="${orders == null || orders.empty}" class="empty-message">
+            <p>Không có đơn hàng đã xóa nào.</p>
+        </div>
+    </div>
+</body>
+
+</html>

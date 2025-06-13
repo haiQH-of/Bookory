@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Xác Nhận Đơn Hàng</title>
+    <style>
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .confirmation-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .confirmation-header h1 {
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+
+        .confirmation-header p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .order-details {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .order-items {
+            border: 1px solid #e2e2e2;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e2e2e2;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 120px;
+            margin-right: 15px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .item-price {
+            color: #e63946;
+            font-weight: 600;
+        }
+
+        .item-quantity {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .order-summary {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: bold;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+            color: #2e7d32;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        .continue-shopping {
+            background: #3498db;
+            color: white;
+        }
+
+        .view-orders {
+            background: #f39c12;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="confirmation-container">
+            <div class="confirmation-header">
+                <h1>Đặt Hàng Thành Công!</h1>
+                <p>Cảm ơn bạn đã mua hàng tại Bookory.</p>
+            </div>
+
+            <div class="order-details">
+                <h2>Thông Tin Đơn Hàng</h2>
+                <div class="order-info">
+                    <div class="info-item">
+                        <div class="info-label">Mã Đơn Hàng:</div>
+                        <div class="info-value" th:text="${order.id}">123456</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Ngày Đặt Hàng:</div>
+                        <div class="info-value" th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">
+                            01/01/2025 15:30</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phương Thức Thanh Toán:</div>
+                        <div class="info-value" th:text="${order.paymentMethod}">COD</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Trạng Thái Thanh Toán:</div>
+                        <div class="info-value" th:text="${order.paymentStatus}">Chưa thanh toán</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Địa Chỉ Giao Hàng:</div>
+                        <div class="info-value" th:text="${order.shippingAddress}">123 Đường ABC, Quận XYZ, TP.HCM</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Trạng Thái Đơn Hàng:</div>
+                        <div class="info-value" th:text="${order.status}">Đang xử lý</div>
+                    </div>
+                </div>
+
+                <h3>Sản Phẩm Đã Mua</h3>
+                <div class="order-items">
+                    <div th:each="item : ${orderItems}" class="order-item">
+                        <img th:src="${item.book.coverImageUrl != null ? '/images/' + item.book.coverImageUrl : '/images/default-cover.jpg'}"
+                            th:alt="${item.book.title}" class="item-image">
+                        <div class="item-details">
+                            <h4 class="item-title" th:text="${item.book.title}">Tên Sách</h4>
+                            <div class="item-price"
+                                th:text="${#numbers.formatDecimal(item.priceAtPurchase, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">
+                                150,000 VNĐ
+                            </div>
+                            <div class="item-quantity" th:text="'Số lượng: ' + ${item.quantity}">Số lượng: 1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Tổng tiền sản phẩm:</span>
+                        <span th:text="${#numbers.formatDecimal(totalAmount, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">150,000
+                            VNĐ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Phí vận chuyển:</span>
+                        <span>Miễn phí</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Thành tiền:</span>
+                        <span th:text="${#numbers.formatDecimal(totalAmount, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}">150,000
+                            VNĐ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a th:href="@{/}" class="action-button continue-shopping">Tiếp Tục Mua Sắm</a>
+                <a th:href="@{/user/orders}" class="action-button view-orders">Xem Đơn Hàng Của Tôi</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

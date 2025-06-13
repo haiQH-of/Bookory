@@ -1,0 +1,68 @@
+/* (Style cho các nút bấm chung .btn, .btn-primary, .btn-secondary, .btn-cta, .btn-block) */
+
+/* Base Button Style */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; /* Thêm color */
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--bookory-orange);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px var(--bookory-shadow-button-primary); /* Sử dụng biến */
+}
+
+.btn-primary:hover {
+    background-color: var(--bookory-dark-orange);
+    box-shadow: 0 6px 15px var(--bookory-shadow-button-primary-hover); /* Sử dụng biến */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-cta {
+    background-color: white;
+    color: var(--bookory-orange);
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 6px 20px var(--bookory-shadow-button-cta); /* Sử dụng biến */
+}
+
+.btn-cta:hover {
+    background-color: var(--bookory-light-gray); /* Sử dụng biến thay vì #eee */
+    color: var(--bookory-dark-orange); /* Sử dụng biến thay vì #e08e00 */
+    box-shadow: 0 8px 25px var(--bookory-shadow-button-cta-hover); /* Sử dụng biến */
+}
+
+/* Nút block dùng trong form Auth (từ _auth.css) */
+.btn-block {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    background-color: var(--bookory-teal); /* Dùng màu teal cho nút block trong auth */
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px var(--bookory-shadow-button-primary); /* Sử dụng biến cho shadow */
+}
+
+.btn-block:hover {
+    background-color: var(--bookory-dark-teal);
+    box-shadow: 0 6px 20px var(--bookory-shadow-button-primary-hover); /* Sử dụng biến cho shadow */
+}

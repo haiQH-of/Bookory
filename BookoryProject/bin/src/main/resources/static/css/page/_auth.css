@@ -1,0 +1,75 @@
+/* (Style cụ thể cho các trang auth: login, register, forgot-password) */
+
+/* --- Styles cho Form Đăng Nhập/Đăng Ký/Quên Mật Khẩu --- */
+
+.auth-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+    background-color: var(--bookory-medium-gray); /* Sử dụng biến thay vì #f0f2f5 */
+    padding: 40px 20px;
+}
+
+.auth-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--bookory-shadow-strong); /* Sử dụng biến thay vì rgba(0, 0, 0, 0.1) */
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.auth-card h2 {
+    font-size: 2.2rem;
+    color: var(--bookory-dark-text); /* Sử dụng biến thay vì var(--bookory-text-dark) */
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.auth-card .auth-subtitle {
+    font-size: 1rem;
+    color: var(--bookory-medium-text); /* Sử dụng biến thay vì var(--bookory-text-light) */
+    margin-bottom: 30px;
+}
+
+.auth-form {
+    text-align: left;
+}
+
+/* Các style .form-group, input, label đã được định nghĩa trong _forms.css, KHÔNG cần định nghĩa lại ở đây */
+/* Nếu có sự khác biệt nhỏ về padding/border/color riêng cho auth-form, hãy thêm cụ thể vào đây */
+
+.forgot-password {
+    color: var(--bookory-teal);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: var(--bookory-dark-teal); /* Sử dụng biến thay vì #1a7d72 */
+    text-decoration: underline;
+}
+
+/* .btn-block đã được chuyển định nghĩa chính về _buttons.css để dễ quản lý */
+/* Nếu có style riêng cho nút block trong auth-card, hãy thêm vào đây */
+
+.auth-footer {
+    margin-top: 30px;
+    font-size: 0.95rem;
+    color: var(--bookory-medium-text); /* Sử dụng biến thay vì var(--bookory-text-light) */
+}
+
+.auth-footer a {
+    color: var(--bookory-teal);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.auth-footer a:hover {
+    color: var(--bookory-dark-teal); /* Sử dụng biến thay vì #1a7d72 */
+    text-decoration: underline;
+}

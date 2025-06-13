@@ -1,0 +1,63 @@
+/* (Style cho main-footer) */
+
+/* Footer Styles */
+.main-footer {
+    background-color: var(--bookory-dark-blue);
+    color: #ccc;
+    padding: 40px 0 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-section h4 {
+    color: white; /* Giữ nguyên trắng */
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section a {
+    text-decoration: none;
+    color: #ccc; /* Giữ nguyên #ccc */
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--bookory-teal);
+}
+
+.footer-logo img {
+    height: 50px;
+    margin-bottom: 15px;
+}
+
+.footer-logo p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1); /* Có thể tạo biến cho border-white-transparent */
+    padding-top: 20px;
+    font-size: 0.9rem;
+    color: #999; /* Giữ nguyên #999 */
+}

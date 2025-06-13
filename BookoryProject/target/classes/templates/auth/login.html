@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Nhập Bookory</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <section class="auth-section">
+            <div class="auth-card">
+                <h2>Chào mừng trở lại!</h2>
+                <p class="auth-subtitle">Đăng nhập để tiếp tục mua bán sách.</p>
+                
+                <form action="#" th:action="@{/login}" th:object="${loginRequest}" method="post" class="auth-form">
+                    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+                    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" id="username" th:field="*{username}" placeholder="Nhập tên đăng nhập của bạn" required>
+                        <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" th:field="*{password}" placeholder="Nhập mật khẩu của bạn" required>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></p>
+                    </div>
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="rememberMe" th:field="*{rememberMe}">
+                            <label for="rememberMe">Ghi nhớ tôi</label>
+                        </div>
+                        <a th:href="@{/forgot-password}" class="forgot-password">Quên mật khẩu?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Chưa có tài khoản? <a th:href="@{/register}">Đăng ký ngay!</a></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

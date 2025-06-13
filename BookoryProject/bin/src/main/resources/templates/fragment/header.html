@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header class="main-header" th:fragment="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="#" th:href="@{/}"><img th:src="@{/images/word-logo.png}" alt="Logo Bookory"></a> 
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm truyện, tác giả, thể loại...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" th:href="@{/browse}">Duyệt</a></li>
+                    <li><a href="#" th:href="@{/write}">Viết</a></li>
+                    <li><a href="#" th:href="@{/profile}">Hồ Sơ</a></li>
+                </ul>
+            </nav>
+
+            <a href="#" th:href="@{/login}" class="btn btn-primary">Đăng Nhập</a>
+        </div>
+    </header>
+</body>
+</html>

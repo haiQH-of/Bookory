@@ -1,0 +1,43 @@
+<!-- src/main/resources/templates/book/new.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Sách Mới</title>
+</head>
+<body>
+    <h1>Thêm Sách Mới</h1>
+
+    <!-- Hiển thị thông báo lỗi (nếu có) -->
+    <div th:if="${errorMessage}" style="color: red;">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Form thêm sách -->
+    <form th:action="@{/book/save}" th:object="${book}" method="post">
+		<div>
+		            <label for="id">id:</label>
+		            <input type="text" id="id" th:field="*{id}" required />
+		        </div>
+		<div>
+            <label for="title">Tiêu đề:</label>
+            <input type="text" id="title" th:field="*{title}" required />
+        </div>
+
+        <div>
+            <label for="description">Mô tả:</label>
+            <textarea id="description" th:field="*{description}"></textarea>
+        </div>
+
+        <div>
+            <label for="price">Giá:</label>
+            <input type="number" id="price" th:field="*{price}" step="0.01" required />
+        </div>
+
+        <div>
+            <button type="submit">Lưu</button>
+            <a th:href="@{/book}">Hủy</a>
+        </div>
+    </form>
+</body>
+</html>

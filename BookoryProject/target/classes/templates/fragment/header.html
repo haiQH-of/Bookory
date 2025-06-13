@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header class="main-header" th:fragment="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a th:href="@{/}"><img th:src="@{/images/word-logo.png}" alt="Logo Bookory"></a>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm kiếm sách, tác giả, thể loại...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a th:href="@{/cart}">Giỏ Hàng</a></li>
+                </ul>
+            </nav>
+
+            <a th:href="@{/login}" class="btn btn-primary">Đăng Nhập</a>
+        </div>
+    </header>
+</body>
+</html>

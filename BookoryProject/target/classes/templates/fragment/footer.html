@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <footer class="main-footer" th:fragment="footer">
+        <div class="container footer-container">
+            <div class="footer-section footer-logo">
+                <img th:src="@{/images/logo.png}" alt="Logo Bookory">
+                <p>Nền tảng mua bán sách trực tuyến hàng đầu, nơi bạn có thể tìm thấy mọi cuốn sách mình cần.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Dành Cho Khách Hàng</h4>
+                <ul>
+                    <li><a th:href="@{/book/list}">Duyệt Sách</a></li>
+                    <li><a th:href="@{/popular-books}">Sách Phổ Biến</a></li>
+                    <li><a th:href="@{/new-arrivals}">Sách Mới Nhập</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Dành Cho Người Bán</h4>
+                <ul>
+                    <li><a th:href="@{/seller/register}">Đăng Ký Bán</a></li>
+                    <li><a th:href="@{/seller/guidelines}">Hướng Dẫn Bán</a></li>
+                    <li><a th:href="@{/seller/dashboard}">Khu Vực Người Bán</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Hỗ Trợ & Chính Sách</h4>
+                <ul>
+                    <li><a th:href="@{/help}">Trung Tâm Trợ Giúp</a></li>
+                    <li><a th:href="@{/contact}">Liên Hệ Với Chúng Tôi</a></li>
+                    <li><a th:href="@{/privacy}">Chính Sách Bảo Mật</a></li>
+                    <li><a th:href="@{/terms}">Điều Khoản Dịch Vụ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Bookory. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <footer class="main-footer" th:fragment="footer">
+        <div class="container footer-container">
+            <div class="footer-section footer-logo">
+                <img th:src="@{/images/logo.png}" alt="Logo Bookory">
+                <p>Nền tảng tuyệt vời nhất dành cho những người yêu truyện và người sáng tạo.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Dành Cho Độc Giả</h4>
+                <ul>
+                    <li><a href="#" th:href="@{/browse}">Duyệt Truyện</a></li>
+                    <li><a href="#" th:href="@{/top-rated}">Được Đánh Giá Cao Nhất</a></li>
+                    <li><a href="#" th:href="@{/new-releases}">Truyện Mới Phát Hành</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Dành Cho Nhà Văn</h4>
+                <ul>
+                    <li><a href="#" th:href="@{/write}">Bắt Đầu Viết</a></li>
+                    <li><a href="#" th:href="@{/writing-guide}">Hướng Dẫn Viết</a></li>
+                    <li><a href="#" th:href="@{/community}">Cộng Đồng</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Hỗ Trợ</h4>
+                <ul>
+                    <li><a href="#" th:href="@{/help}">Trung Tâm Trợ Giúp</a></li>
+                    <li><a href="#" th:href="@{/contact}">Liên Hệ Với Chúng Tôi</a></li>
+                    <li><a href="#" th:href="@{/privacy}">Chính Sách Bảo Mật</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Bookory. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

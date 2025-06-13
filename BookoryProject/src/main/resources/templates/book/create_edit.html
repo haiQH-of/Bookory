@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: (${isEdit} ? 'Chỉnh sửa sách' : 'Thêm sách mới')">Form sách</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        .char-counter {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        .preview-image {
+            max-width: 200px;
+            max-height: 300px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/admin/book" class="text-decoration-none"><i class="fas fa-book me-1"></i>Sách</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${isEdit} ? 'Chỉnh sửa' : 'Thêm mới'">Thêm mới</li>
+        </ol>
+    </nav>
+
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <span th:text="${successMessage}">Thành công</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <span th:text="${errorMessage}">Lỗi</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm rounded">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-book-open me-2"></i>
+                        <span th:text="${pageTitle} ?: (${isEdit} ? 'Chỉnh sửa sách' : 'Thêm sách mới')">Form sách</span>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/book/save}" th:object="${book}" method="post" id="bookForm">
+                        <input type="hidden" th:field="*{id}" th:if="${isEdit}"/>
+
+                        <div class="row">
+                            <!-- Thông tin cơ bản -->
+                            <div class="col-lg-8">
+                                <h5 class="text-primary mb-3"><i class="fas fa-info-circle me-2"></i>Thông tin cơ bản</h5>
+                                
+                                <!-- Tên sách -->
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">
+                                        <i class="fas fa-book text-primary me-1"></i>
+                                        Tên sách <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                                        <input type="text" id="title" th:field="*{title}" 
+                                               class="form-control" 
+                                               placeholder="Nhập tên sách" 
+                                               maxlength="255" 
+                                               required>
+                                    </div>
+                                    <div class="char-counter mt-1">
+                                        <span id="titleCounter">0</span>/255 ký tự
+                                    </div>
+                                </div>
+
+                                <!-- Mô tả -->
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">
+                                        <i class="fas fa-align-left text-info me-1"></i>
+                                        Mô tả sách
+                                    </label>
+                                    <textarea id="description" th:field="*{description}" 
+                                              class="form-control" 
+                                              rows="5" 
+                                              placeholder="Nhập mô tả chi tiết về nội dung sách..."></textarea>
+                                    <div class="char-counter mt-1">
+                                        <span id="descriptionCounter">0</span> ký tự
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!-- Nhà xuất bản -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="publisher" class="form-label">
+                                            <i class="fas fa-building text-warning me-1"></i>
+                                            Nhà xuất bản
+                                        </label>
+                                        <select id="publisher" th:field="*{publisher.id}" class="form-select">
+                                            <option value="">-- Chọn nhà xuất bản --</option>
+                                            <option th:each="publisher : ${publishers}" 
+                                                    th:value="${publisher.id}" 
+                                                    th:text="${publisher.name}">Publisher Name</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Năm xuất bản -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="publicationYear" class="form-label">
+                                            <i class="fas fa-calendar text-success me-1"></i>
+                                            Năm xuất bản
+                                        </label>
+                                        <input type="number" id="publicationYear" th:field="*{publicationYear}" 
+                                               class="form-control" 
+                                               placeholder="VD: 2024"
+                                               min="1800" 
+                                               max="2030">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <!-- Giá -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="price" class="form-label">
+                                            <i class="fas fa-dollar-sign text-success me-1"></i>
+                                            Giá bán <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₫</span>
+                                            <input type="number" id="price" th:field="*{price}" 
+                                                   class="form-control" 
+                                                   placeholder="0"
+                                                   min="0" 
+                                                   step="1000"
+                                                   required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Số lượng tồn -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="stockQuantity" class="form-label">
+                                            <i class="fas fa-boxes text-info me-1"></i>
+                                            Số lượng tồn kho <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="number" id="stockQuantity" th:field="*{stockQuantity}" 
+                                               class="form-control" 
+                                               placeholder="0"
+                                               min="0" 
+                                               required>
+                                    </div>
+                                </div>
+
+                                <!-- Trạng thái ẩn (chỉ hiện khi edit) -->
+                                <div class="mb-3" th:if="${isEdit}">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="deleted" th:field="*{deleted}">
+                                                <label class="form-check-label fw-bold" for="deleted">
+                                                    <i class="fas fa-eye-slash text-warning me-2"></i>
+                                                    Ẩn sách này
+                                                </label>
+                                            </div>
+                                            <div class="form-text text-warning mt-2">
+                                                <i class="fas fa-info-circle"></i> 
+                                                Sách bị ẩn sẽ không hiển thị cho khách hàng
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hình ảnh bìa -->
+                            <div class="col-lg-4">
+                                <h5 class="text-primary mb-3"><i class="fas fa-image me-2"></i>Hình ảnh bìa</h5>
+                                
+                                <!-- URL ảnh bìa -->
+                                <div class="mb-3">
+                                    <label for="coverImageUrl" class="form-label">
+                                        <i class="fas fa-link text-info me-1"></i>
+                                        URL ảnh bìa
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                                        <input type="text" id="coverImageUrl" th:field="*{coverImageUrl}" 
+                                               class="form-control" 
+                                               placeholder="https://example.com/image.jpg hoặc default-cover.png"
+                                               maxlength="500">
+                                    </div>
+                                    <div class="char-counter mt-1">
+                                        <span id="urlCounter">0</span>/500 ký tự
+                                    </div>
+                                </div>
+
+                                <!-- Preview ảnh -->
+                                <div class="mb-3">
+                                    <div class="text-center">
+                                        <img id="imagePreview" 
+                                             class="preview-image d-none" 
+                                             alt="Preview ảnh bìa"
+                                             th:src="${book.coverImageUrl}"
+                                             th:style="${book.coverImageUrl != null and book.coverImageUrl != ''} ? 'display: block !important;' : 'display: none !important;'">
+                                        <div id="noImagePlaceholder" 
+                                             class="preview-image d-flex align-items-center justify-content-center bg-light text-muted"
+                                             th:style="${book.coverImageUrl != null and book.coverImageUrl != ''} ? 'display: none !important;' : 'display: flex !important;'">
+                                            <div class="text-center">
+                                                <i class="fas fa-image fa-3x mb-2"></i>
+                                                <div>Chưa có ảnh</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+						<select id="sellerId" name="sellerId" class="form-select" required>
+						  <option value="">-- Chọn người bán --</option>
+						  <option th:each="seller : ${sellers}"
+						          th:value="${seller.user.id}"
+						          th:text="${seller.user.username}">
+						  </option>
+						</select>
+
+
+                        <!-- Buttons -->
+                        <hr class="my-4">
+                        <div class="d-flex justify-content-between">
+                            <a href="/admin/book" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-1"></i>Quay lại
+                            </a>
+                            <div>
+                                <button type="reset" class="btn btn-outline-warning me-2" th:unless="${isEdit}">
+                                    <i class="fas fa-undo me-1"></i>Làm mới
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i>
+                                    <span th:text="${isEdit} ? 'Cập nhật' : 'Thêm mới'">Lưu</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+				
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Character counters
+    const titleInput = document.getElementById('title');
+    const titleCounter = document.getElementById('titleCounter');
+    const descriptionInput = document.getElementById('description');
+    const descriptionCounter = document.getElementById('descriptionCounter');
+    const urlInput = document.getElementById('coverImageUrl');
+    const urlCounter = document.getElementById('urlCounter');
+	const sellerSelect = document.getElementById('sellerId');
+
+    function updateCounter(input, counter, maxLength) {
+        const length = input.value.length;
+        counter.textContent = length;
+        
+        if (maxLength && length > maxLength * 0.9) {
+            counter.parentElement.classList.add('text-warning');
+        } else {
+            counter.parentElement.classList.remove('text-warning');
+        }
+    }
+    
+    // Kiểm tra element tồn tại trước khi thêm event listener
+    if (titleInput && titleCounter) {
+        titleInput.addEventListener('input', () => updateCounter(titleInput, titleCounter, 255));
+        updateCounter(titleInput, titleCounter, 255); // Initial update
+    }
+    
+    if (descriptionInput && descriptionCounter) {
+        descriptionInput.addEventListener('input', () => updateCounter(descriptionInput, descriptionCounter));
+        updateCounter(descriptionInput, descriptionCounter); // Initial update
+    }
+    
+    if (urlInput && urlCounter) {
+        urlInput.addEventListener('input', () => updateCounter(urlInput, urlCounter, 500));
+        updateCounter(urlInput, urlCounter, 500); // Initial update
+    }
+    
+    // Image preview
+    const imagePreview = document.getElementById('imagePreview');
+    const noImagePlaceholder = document.getElementById('noImagePlaceholder');
+    
+    function updateImagePreview() {
+        if (!urlInput || !imagePreview || !noImagePlaceholder) return;
+        
+        const url = urlInput.value.trim();
+        if (url) {
+            // Kiểm tra nếu là URL đầy đủ hoặc tên file ảnh
+            const isValidImage = url.includes('.jpg') || url.includes('.jpeg') || 
+                               url.includes('.png') || url.includes('.webp') || 
+                               url.includes('.gif');
+            
+            if (isValidImage) {
+                // Nếu không phải URL đầy đủ, giả định là static resource
+                const imageSrc = url.startsWith('http') ? url : `/images/${url}`;
+                
+                imagePreview.src = imageSrc;
+                imagePreview.classList.remove('d-none');
+                noImagePlaceholder.classList.add('d-none');
+                
+                imagePreview.onerror = function() {
+                    imagePreview.classList.add('d-none');
+                    noImagePlaceholder.classList.remove('d-none');
+                };
+            } else {
+                imagePreview.classList.add('d-none');
+                noImagePlaceholder.classList.remove('d-none');
+            }
+        } else {
+            imagePreview.classList.add('d-none');
+            noImagePlaceholder.classList.remove('d-none');
+        }
+    }
+    
+    if (urlInput) {
+        urlInput.addEventListener('input', updateImagePreview);
+        updateImagePreview(); // Initial preview
+    }
+    
+    // Auto-resize textarea
+    if (descriptionInput) {
+        descriptionInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    }
+    
+    // Form validation
+    const form = document.getElementById('bookForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const title = titleInput ? titleInput.value.trim() : '';
+            const price = document.getElementById('price') ? document.getElementById('price').value : '';
+            const stockQuantity = document.getElementById('stockQuantity') ? document.getElementById('stockQuantity').value : '';
+            
+            if (!title) {
+                e.preventDefault();
+                alert('Vui lòng nhập tên sách!');
+                if (titleInput) titleInput.focus();
+                return false;
+            }
+            
+            if (!price || parseFloat(price) <= 0) {
+                e.preventDefault();
+                alert('Vui lòng nhập giá sách hợp lệ (lớn hơn 0)!');
+                const priceInput = document.getElementById('price');
+                if (priceInput) priceInput.focus();
+                return false;
+            }
+            
+            if (!stockQuantity || parseInt(stockQuantity) < 0) {
+                e.preventDefault();
+                alert('Số lượng tồn kho không được âm!');
+                const stockInput = document.getElementById('stockQuantity');
+                if (stockInput) stockInput.focus();
+                return false;
+            }
+			if (!sellerSelect.value) {
+			  e.preventDefault();
+			  alert('Vui lòng chọn người bán!');
+			  sellerSelect.focus();
+			  return false;
+			}
+        });
+    }
+    
+    // Format price input
+    const priceInput = document.getElementById('price');
+    if (priceInput) {
+        priceInput.addEventListener('input', function() {
+            let value = this.value.replace(/[^\d]/g, '');
+            if (value) {
+                this.value = parseInt(value);
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

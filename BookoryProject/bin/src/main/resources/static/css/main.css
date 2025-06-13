@@ -1,0 +1,23 @@
+/* src/main/resources/static/css/main.css */
+
+/* Base Styles */
+@import url("base/_variable.css");
+@import url("base/_reset.css");
+@import url("base/_layout.css");
+
+/* Component Styles */
+@import url("component/_button.css");
+@import url("component/_book_card.css");
+@import url("component/_form.css");
+@import url("component/_tag.css");
+
+/* Section Styles */	
+@import url("section/_header.css");
+@import url("section/_footer.css");
+@import url("section/_hero.css");
+@import url("section/_general-section.css");
+/* Page Specific Styles */
+@import url("page/_auth.css");
+/* Thêm các file CSS khác cho từng trang nếu cần */
+/* @import url("pages/_home.css"); */
+/* @import url("pages/_admin.css"); */
